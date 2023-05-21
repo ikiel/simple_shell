@@ -45,7 +45,7 @@ void _cd(arg_t *args)
 			return;
 		}
 	}
-i	else
+	else
 	{
 		target = _strdup(args->params[1]);
 		if (!target)

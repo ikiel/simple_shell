@@ -5,7 +5,7 @@
  *
  * Return: 0
  */
-int main(int __attribute__((unused)) ac, char __attribute__((unused)) **argv, char __attribute__((unused)) **env)
+int main(void)
 {
 	int i = 0, num_tokens = 0;
 	char *line = NULL, *token, *line_copy, **args = NULL;

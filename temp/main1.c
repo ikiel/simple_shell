@@ -1,6 +1,5 @@
 #include "shell.h"
 
-arg_t *init_arg(char **argv, char **env);
 /**
  * main - entry point for simple shell
  * @argc: argument count
@@ -34,8 +33,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 			(args->buffer)[i] = 0;
 		args->tokCount = 0;
 		if (isatty(STDIN_FILENO))
-			_printf("($): ");
-		/*cond = _getline(params);*/
+			_printf("($) ");
 		cond = getline(&args->buffer, &size, stdin);
 		args->lineCount++;
 		if (cond == -1 && _strlen(args->buffer) == 0)
@@ -67,7 +65,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 /**
  * init_arg - initialize args
  * @argv: command line argument
- * @env: environment variables
+ * @env: environment variable
  * Return: arg on success
  */
 arg_t *init_arg(char **argv, char **env)
