@@ -10,9 +10,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-void prompt(void);
+extern char *environ;
+
+void shell_loop(int input);
+void prompt();
 void execcmd(char **argv);
 char *pathfinder(char *command);
+char **tokenize(char *line, const char *delim);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /* string functions */
 char *_strcpy(char *dest, char *src);
@@ -24,5 +29,10 @@ char *_strdup(char *str);
 
 /* free */
 void free_more(char **argv);
+
+/* execute.c */
+int exec_builtin(char **av);
+int create_fork(char **av);
+void exec_line(char *line);
 
 #endif /* MAIN_H */

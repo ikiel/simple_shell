@@ -2,20 +2,44 @@
 /**
  * tokenize - splits a line into tokens
  * @line: line to split
- * @args: adress to save the tokens
+ * @delim: the delimiter
  *
- * Return: void
+ * Return: array of tokens
  */
-void tokenize(char *line, char *args[])
+char **tokenize(char *line, const char delim)
 {
-	char  *token;
-	int i = 0;
+	char  **token = NULL;
+	int i = 0, j, w = 0;
 
-	token = strtok(line, " ");
-	while (token != NULL)
+	while (line[i] != '\0' && line[i] == delim)
+		i++;
+	if (!line[i])
+		return (NULL);
+	i = 0;
+	while (line[i])
 	{
-		args[i++] = token;
-		token = strtok(NULL, " ");
+		j = i;
+		if (line[i] != delim)
+		{
+			token = _realloc(token, sizeof(char *) * w,
+					sizeof(char *) * (w + 1));
+			token(w) = NULL;
+			while (line[j] && line[j] != delim)
+			{
+				token[w] = _realloc(token[w], (j - i), ((j - i) + 1));
+				token[w][j - i] = line[j];
+				j++;
+			}
+			token[w] = _realloc(token[w], (j - i), ((j - i) + 1));
+			token[w][j - i] = '\0';
+			i += (j - i);
+			w++;
+		}
+		else
+			i++;
 	}
-	args[i] = NULL;
+	token = _realloc(token, sizeof(char *) * w, sizeof(char *) * (w + 1));
+	token[w] = NULL;
+
+	return (token);
 }

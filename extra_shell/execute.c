@@ -74,3 +74,87 @@ char *pathfinder(char *command)
 
 	return (NULL);
 }
+
+/**
+ * exec_builtin - execute builtin functions
+ * @av: array of arguments
+ *
+ * Return: 0 or function
+ */
+int exec_builtin(char **av)
+{
+	builtin builtins[] = {{"cd", _cd}, {"exit", _exit},
+		{"env", _env}, {NULL, NULL}};
+	int i = 0;
+
+	while (builtins[i].s)
+	{
+		if (_strcmp(builtins[i].s, av[0]) == 0)
+			return (builtins[i].f(av));
+		i++;
+	}
+
+	return (0);
+}
+
+/**
+ * create_fork - creates a fork and execute program with parameters
+ * @av: array of program and parameters
+ *
+ * Return: return value of child process
+ */
+int create_fork(char **av)
+{
+	pid_t my_pid, child_pid;
+	int waitstatus;
+
+	child_pid = fork();
+	if (child_pid == 0)
+	{
+		my_pid = execve(av[0], av, environ);
+		if (my_pid == -1)
+			exit(1);
+	}
+	else
+		wait(&waitstatus);
+	return (WEXITSTATUS(waitstatus));
+}
+
+/**
+ * exec_line - execute line of commands
+ * @line: user generated line of commands
+ *
+ * Return: void
+ */
+void exec_line(char *line)
+{
+	char **av, *p;
+	char **lines;
+	int i = 0;
+
+	line[_strlen(line) - 1] = '\0';
+	lines = tokenize(line, ';');
+	free(line);
+	while (lines[i])
+	{
+		av = tokenize(lines[i], ' ');
+		i++;
+		if (av != NULL)
+		{
+			if (!_strcmp(av[0], "exit"))
+				free_more(line);
+			if (!exec_builtin(av))
+			{
+				p = _strdup(av[0]);
+
+				if (_path(a[0]) || _match(&av[0]))
+					create_fork(av);
+				else
+					herror(av[0], "not found\n");
+				free(p);
+			}
+			free_more(av);
+		}
+	}
+	free_more(lines);
+}
