@@ -1,9 +1,8 @@
 #include "shell.h"
 
 /**
- * free_args - Frees the memory allocated for the param_t structure.
- * 
- * @args: pointer to the param_t structure to free
+ * free_args - Frees the memory allocated for the arg_t structure.
+ * @args: pointer to the arg_t structure to free
  *
  */
 void free_args(arg_t *args)
